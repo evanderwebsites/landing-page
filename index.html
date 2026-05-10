@@ -50,17 +50,29 @@
   @media (max-width: 767px) {
     .hero-bg {
       background-size: cover, cover;
-      background-position: center, center top;
+      background-position: center, center;
     }
-    .hero-mobile-pad { padding-top: 52vw; }
-    .hero-mobile-fade {
-      background: linear-gradient(to top,
-        rgba(250,244,236,1) 0%,
-        rgba(250,244,236,0.97) 35%,
-        rgba(250,244,236,0.15) 65%,
-        transparent 85%);
+    /* Image spacer — reveals background photo above the text */
+    .hero-img-spacer {
+      height: 62vw;
+      width: 100%;
+      position: relative;
+      flex-shrink: 0;
     }
-    /* Hide left/right edge overlays on mobile — only keep top/bottom */
+    /* Smooth fade from image into cream text block */
+    .hero-img-spacer::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3.5rem;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+    }
+    /* Text content sits on solid cream on mobile */
+    .hero-mobile-content {
+      background: var(--cream);
+      position: relative;
+      z-index: 2;
+    }
     .hero-edge-lr { display: none; }
   }
 
@@ -72,6 +84,16 @@
     }
   }
   .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+  /* ── Hero split: guaranteed by native CSS, not just Tailwind ── */
+  @media (max-width: 767px) {
+    .desktop-hero-only { display: none !important; }
+    .mobile-hero-only  { display: block !important; }
+  }
+  @media (min-width: 768px) {
+    .mobile-hero-only  { display: none !important; }
+    .desktop-hero-only { display: block !important; }
+  }
 
   /* Bio section */
   .bio-bg {
@@ -152,45 +174,58 @@
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero-bg relative overflow-hidden">
-  <div class="grain absolute inset-0 opacity-40"></div>
-  <!-- Mobile: full-bleed cream fade from bottom so text is readable -->
-  <div class="absolute inset-0 pointer-events-none hero-mobile-fade md:hidden"></div>
-  <!-- Edge softening overlays (desktop) -->
-  <div class="absolute inset-0 pointer-events-none hidden md:block" style="background: linear-gradient(to bottom, var(--cream) 0%, transparent 25%, transparent 72%, var(--cream) 100%);"></div>
-  <div class="absolute inset-0 pointer-events-none hidden md:block hero-edge-lr" style="background: linear-gradient(to right, var(--cream) 0%, transparent 18%);"></div>
-  <div class="absolute inset-0 pointer-events-none hidden md:block hero-edge-lr" style="background: linear-gradient(to left, var(--cream) 0%, transparent 25%);"></div>
-  <div class="max-w-6xl mx-auto px-4 pt-8 pb-10 md:pt-20 md:pb-20 relative hero-mobile-pad">
 
-    <div class="flex items-center gap-3 mb-5 flex-wrap">
-      <span class="inline-flex items-center gap-1 bg-ink text-cream text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">
-        ✈ For DFW
-      </span>
+<!-- ── MOBILE HERO (phones only) ── -->
+<div class="md:hidden mobile-hero-only bg-cream">
+  <!-- Hero image block -->
+  <div class="hero-bg w-full" style="height: 68vw; background-size: cover, cover; background-position: center, center; background-repeat: no-repeat;"></div>
+  <!-- Smooth image-to-cream fade -->
+  <div style="height: 2.5rem; background: linear-gradient(to bottom, transparent, #FAF4EC); margin-top: -2.5rem; position: relative; z-index: 1;"></div>
+  <!-- Text content -->
+  <div class="bg-cream px-5 pt-2 pb-10">
+    <div class="flex items-center gap-3 mb-4 flex-wrap">
+      <span class="inline-flex items-center gap-1 bg-ink text-cream text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">✈ For DFW</span>
       <span class="text-xs uppercase tracking-widest text-ink-soft font-semibold">Human-Designed · AI-Assisted · Real Team</span>
     </div>
-
-    <h1 class="display leading-[0.88] mb-5 uppercase" style="font-size: clamp(2.4rem, 11.2vw, 7.2rem);">
-      Get<br/>
-      <span class="accent-3d">Found.</span><br/>
-      Get Booked.
+    <h1 class="display leading-[0.9] mb-4 uppercase" style="font-size: clamp(2.6rem, 13vw, 4rem);">
+      Get<br/><span class="accent-3d">Found.</span><br/>Get Booked.
     </h1>
+    <p class="text-base text-ink-soft leading-relaxed mb-6 font-medium">
+      Customers Google your business <em>before</em> they call. If you're not there, you don't exist.
+      We build landing pages for DFW small businesses in <strong>as fast as 7 business days. $500 flat.</strong>
+    </p>
+    <div class="flex flex-col gap-3 mb-4">
+      <a href="tel:9724678697" class="bg-accent hover-accent text-white font-bold px-6 py-4 rounded-sm text-base text-center inline-flex items-center justify-center gap-2 min-h-[52px]">📞 Call (972) 467-8697</a>
+      <a href="sms:9724678697" class="bg-ink text-cream font-bold px-6 py-4 rounded-sm text-base text-center hover:bg-ink/80 inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-ink">💬 Text Us</a>
+    </div>
+    <p class="text-sm text-ink-soft">★★★★★ &nbsp;Clear pricing. No obligation. We answer when you call.</p>
+  </div>
+</div>
 
+<!-- ── DESKTOP HERO (tablet & up) ── -->
+<section class="hero-bg relative overflow-hidden hidden md:block desktop-hero-only">
+  <div class="grain absolute inset-0 opacity-40"></div>
+  <!-- Edge softening overlays -->
+  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to bottom, var(--cream) 0%, transparent 25%, transparent 72%, var(--cream) 100%);"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to right, var(--cream) 0%, transparent 18%);"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to left, var(--cream) 0%, transparent 25%);"></div>
+  <div class="max-w-6xl mx-auto px-4 pt-8 pb-10 md:pt-20 md:pb-20 relative">
+    <div class="flex items-center gap-3 mb-5 flex-wrap">
+      <span class="inline-flex items-center gap-1 bg-ink text-cream text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">✈ For DFW</span>
+      <span class="text-xs uppercase tracking-widest text-ink-soft font-semibold">Human-Designed · AI-Assisted · Real Team</span>
+    </div>
+    <h1 class="display leading-[0.88] mb-5 uppercase" style="font-size: clamp(2.4rem, 11.2vw, 7.2rem);">
+      Get<br/><span class="accent-3d">Found.</span><br/>Get Booked.
+    </h1>
     <p class="text-base sm:text-lg md:text-2xl max-w-2xl text-ink-soft leading-relaxed mb-7 font-medium">
       Customers Google your business <em>before</em> they call. If you're not there, you don't exist.
       We build landing pages for DFW small businesses in <strong>as fast as 7 business days. $500 flat.</strong>
     </p>
-
     <div class="flex flex-col sm:flex-row gap-3 mb-5">
-      <a href="tel:9724678697" class="bg-accent hover-accent text-white font-bold px-6 py-4 rounded-sm text-base sm:text-lg text-center inline-flex items-center justify-center gap-2 min-h-[52px]">
-        📞 Call (972) 467-8697
-      </a>
-      <a href="sms:9724678697" class="bg-ink text-cream font-bold px-6 py-4 rounded-sm text-base sm:text-lg text-center hover:bg-ink/80 inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-ink">
-        💬 Text Us
-      </a>
+      <a href="tel:9724678697" class="bg-accent hover-accent text-white font-bold px-6 py-4 rounded-sm text-base sm:text-lg text-center inline-flex items-center justify-center gap-2 min-h-[52px]">📞 Call (972) 467-8697</a>
+      <a href="sms:9724678697" class="bg-ink text-cream font-bold px-6 py-4 rounded-sm text-base sm:text-lg text-center hover:bg-ink/80 inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-ink">💬 Text Us</a>
     </div>
     <p class="text-sm text-ink-soft">★★★★★ &nbsp;Clear pricing. No obligation. We answer when you call.</p>
-
-    </div>
   </div>
 </section>
 
@@ -224,13 +259,13 @@
       <div>
         <div class="text-xs uppercase tracking-widest text-ink-soft font-bold mb-3">✈ THE REAL PROBLEM</div>
         <h2 class="display uppercase leading-[0.9] mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">
-          If you're not on Google, <span class="accent-3d">you don't exist.</span>
+          If you're not searchable on Google, <span class="accent-3d">you don't exist.</span>
         </h2>
         <p class="text-base sm:text-lg text-ink-soft leading-relaxed mb-4">
           Not because you're not good at what you do. You're great. The problem is every customer in DFW pulls out their phone before they buy.
         </p>
         <p class="text-base sm:text-lg text-ink-soft leading-relaxed">
-          They search "<span class="font-bold text-ink">mechanic near me</span>" or "<span class="font-bold text-ink">dog groomer Plano</span>," and if you don't show up, they call someone else. Every. Single. Day.
+          They search "<span class="font-bold text-ink">mechanic near me</span>" or "<span class="font-bold text-ink">dog groomer Plano</span>," and if your business doesn't show up in those results, they call someone else. Every. Single. Day.
         </p>
       </div>
       <div class="flex justify-center">
@@ -310,19 +345,13 @@
         <!-- High contrast text box for readability -->
         <div class="bg-black/50 backdrop-blur-sm rounded-lg p-5 sm:p-6 border border-white/10 space-y-4">
           <p class="text-white text-base sm:text-lg leading-relaxed font-medium">
-            This business exists because of a broken promise and a need that couldn't wait.
+            EVANDER WEBSITES started to help <strong class="text-white">Evan</strong> get through flight school. Instead of expensive agencies charging $3K, $5K, $10K for work that should cost a fraction of that, we learned the trade ourselves and built a better way.
           </p>
           <p class="text-white/90 text-sm sm:text-base leading-relaxed">
-            A student needed to get through flight school. The money was set aside. Then a mentor, someone who was supposed to be trusted, used sales tactics to manipulate them into purchasing overpriced services. By then, the tuition money was gone.
+            We combined our knowledge of how different platforms work with our creativity, using AI tools strategically, to build landing pages that are fast, affordable, and actually convert.
           </p>
           <p class="text-white/90 text-sm sm:text-base leading-relaxed">
-            So instead of giving up, the family learned the trade themselves. This business is named after that student, <strong class="text-white">Evan</strong>, who helps and learns the trade on the side while going to school to become a pilot.
-          </p>
-          <p class="text-white/90 text-sm sm:text-base leading-relaxed">
-            <strong class="text-white">Here's the truth:</strong> Small businesses that aren't online don't get seen. Most agencies know you're desperate, so they charge accordingly. $3K, $5K, $10K for work that should cost a fraction of that. <strong class="text-white">We know how that feels. We've lived it.</strong>
-          </p>
-          <p class="text-white/90 text-sm sm:text-base leading-relaxed">
-            So here's what we do: We build your landing page. Honest pricing. No markup. No bloat. No invoices that make you wonder if you made a mistake trusting someone new.
+            No markup. No bloat. Just honest pricing for small businesses that need to be found online.
           </p>
           <div class="pt-2 border-t border-white/20">
             <p class="text-white font-bold text-base sm:text-lg">
