@@ -48,12 +48,6 @@
 
   .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
-  /* Mobile: plain cream background in hero so text is clean */
-  @media (max-width: 767px) {
-    .hero-bg-section {
-      background-image: linear-gradient(rgba(250,244,236,1), rgba(250,244,236,1)) !important;
-    }
-  }
 
 
   /* Bio section */
@@ -135,13 +129,15 @@
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero-bg hero-bg-section relative overflow-hidden">
+<section class="hero-bg relative overflow-hidden">
   <div class="grain absolute inset-0 opacity-40"></div>
-  <!-- Edge softening overlays -->
-  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to bottom, var(--cream) 0%, transparent 25%, transparent 72%, var(--cream) 100%);"></div>
-  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to right, var(--cream) 0%, transparent 18%);"></div>
-  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to left, var(--cream) 0%, transparent 25%);"></div>
-  <div class="max-w-6xl mx-auto px-4 pt-8 pb-10 md:pt-20 md:pb-20 relative">
+  <!-- Mobile: solid cream block covers the photo so text is fully readable -->
+  <div class="md:hidden absolute inset-0" style="background: rgba(250,244,236,1); z-index: 1;"></div>
+  <!-- Edge softening overlays (desktop only) -->
+  <div class="absolute inset-0 pointer-events-none hidden md:block" style="background: linear-gradient(to bottom, var(--cream) 0%, transparent 25%, transparent 72%, var(--cream) 100%);"></div>
+  <div class="absolute inset-0 pointer-events-none hidden md:block" style="background: linear-gradient(to right, var(--cream) 0%, transparent 18%);"></div>
+  <div class="absolute inset-0 pointer-events-none hidden md:block" style="background: linear-gradient(to left, var(--cream) 0%, transparent 25%);"></div>
+  <div class="max-w-6xl mx-auto px-4 pt-8 pb-10 md:pt-20 md:pb-20 relative" style="z-index: 2;">
     <div class="flex items-center gap-3 mb-5 flex-wrap">
       <span class="inline-flex items-center gap-1 bg-ink text-cream text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">✈ For DFW</span>
       <span class="text-xs uppercase tracking-widest text-ink-soft font-semibold">Human-Designed · AI-Assisted · Real Team</span>
