@@ -46,54 +46,15 @@
 
   input, textarea, select { font-size: 16px !important; }
 
-  /* ── Mobile: hero image above title ── */
-  @media (max-width: 767px) {
-    .hero-bg {
-      background-size: cover, cover;
-      background-position: center, center;
-    }
-    /* Image spacer — reveals background photo above the text */
-    .hero-img-spacer {
-      height: 62vw;
-      width: 100%;
-      position: relative;
-      flex-shrink: 0;
-    }
-    /* Smooth fade from image into cream text block */
-    .hero-img-spacer::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3.5rem;
-      background: linear-gradient(to bottom, transparent, var(--cream));
-    }
-    /* Text content sits on solid cream on mobile */
-    .hero-mobile-content {
-      background: var(--cream);
-      position: relative;
-      z-index: 2;
-    }
-    .hero-edge-lr { display: none; }
-  }
-
-  /* ── Tablet (768-1023px) tweaks ── */
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .hero-bg {
-      background-size: cover, 80%;
-      background-position: center, center right;
-    }
-  }
   .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
-  /* ── Hero split: guaranteed by native CSS, not just Tailwind ── */
+  /* Mobile: plain cream background in hero so text is clean */
   @media (max-width: 767px) {
-    .desktop-hero-only { display: none !important; }
-    .mobile-hero-only  { display: block !important; }
+    .hero-bg-section {
+      background-image: linear-gradient(rgba(250,244,236,1), rgba(250,244,236,1)) !important;
+    }
   }
-  @media (min-width: 768px) {
-    .mobile-hero-only  { display: none !important; }
-    .desktop-hero-only { display: block !important; }
-  }
+
 
   /* Bio section */
   .bio-bg {
@@ -174,36 +135,7 @@
 </header>
 
 <!-- ============ HERO ============ -->
-
-<!-- ── MOBILE HERO (phones only) ── -->
-<div class="md:hidden mobile-hero-only bg-cream">
-  <!-- Hero image block -->
-  <div class="hero-bg w-full" style="height: 68vw; background-size: cover, cover; background-position: center, center; background-repeat: no-repeat;"></div>
-  <!-- Smooth image-to-cream fade -->
-  <div style="height: 2.5rem; background: linear-gradient(to bottom, transparent, #FAF4EC); margin-top: -2.5rem; position: relative; z-index: 1;"></div>
-  <!-- Text content -->
-  <div class="bg-cream px-5 pt-2 pb-10">
-    <div class="flex items-center gap-3 mb-4 flex-wrap">
-      <span class="inline-flex items-center gap-1 bg-ink text-cream text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">✈ For DFW</span>
-      <span class="text-xs uppercase tracking-widest text-ink-soft font-semibold">Human-Designed · AI-Assisted · Real Team</span>
-    </div>
-    <h1 class="display leading-[0.9] mb-4 uppercase" style="font-size: clamp(2.6rem, 13vw, 4rem);">
-      Get<br/><span class="accent-3d">Found.</span><br/>Get Booked.
-    </h1>
-    <p class="text-base text-ink-soft leading-relaxed mb-6 font-medium">
-      Customers Google your business <em>before</em> they call. If you're not there, you don't exist.
-      We build landing pages for DFW small businesses in <strong>as fast as 7 business days. $500 flat.</strong>
-    </p>
-    <div class="flex flex-col gap-3 mb-4">
-      <a href="tel:9724678697" class="bg-accent hover-accent text-white font-bold px-6 py-4 rounded-sm text-base text-center inline-flex items-center justify-center gap-2 min-h-[52px]">📞 Call (972) 467-8697</a>
-      <a href="sms:9724678697" class="bg-ink text-cream font-bold px-6 py-4 rounded-sm text-base text-center hover:bg-ink/80 inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-ink">💬 Text Us</a>
-    </div>
-    <p class="text-sm text-ink-soft">★★★★★ &nbsp;Clear pricing. No obligation. We answer when you call.</p>
-  </div>
-</div>
-
-<!-- ── DESKTOP HERO (tablet & up) ── -->
-<section class="hero-bg relative overflow-hidden hidden md:block desktop-hero-only">
+<section class="hero-bg hero-bg-section relative overflow-hidden">
   <div class="grain absolute inset-0 opacity-40"></div>
   <!-- Edge softening overlays -->
   <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to bottom, var(--cream) 0%, transparent 25%, transparent 72%, var(--cream) 100%);"></div>
@@ -228,6 +160,9 @@
     <p class="text-sm text-ink-soft">★★★★★ &nbsp;Clear pricing. No obligation. We answer when you call.</p>
   </div>
 </section>
+
+<!-- Mobile hero image — shows below title on phones only -->
+<div class="hero-bg md:hidden" style="height: 62vw; background-size: cover, cover; background-position: center, center; background-repeat: no-repeat;"></div>
 
 <!-- TICKER -->
 <section class="bg-ink text-cream py-4 overflow-hidden border-y-2 border-ink">
