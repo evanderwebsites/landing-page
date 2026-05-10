@@ -131,13 +131,11 @@
 <!-- ============ HERO ============ -->
 <section class="hero-bg relative overflow-hidden">
   <div class="grain absolute inset-0 opacity-40"></div>
-  <!-- Mobile: solid cream block covers the photo so text is fully readable -->
-  <div class="md:hidden absolute inset-0" style="background: rgba(250,244,236,1); z-index: 1;"></div>
-  <!-- Edge softening overlays (desktop only) -->
-  <div class="absolute inset-0 pointer-events-none hidden md:block" style="background: linear-gradient(to bottom, var(--cream) 0%, transparent 25%, transparent 72%, var(--cream) 100%);"></div>
-  <div class="absolute inset-0 pointer-events-none hidden md:block" style="background: linear-gradient(to right, var(--cream) 0%, transparent 18%);"></div>
-  <div class="absolute inset-0 pointer-events-none hidden md:block" style="background: linear-gradient(to left, var(--cream) 0%, transparent 25%);"></div>
-  <div class="max-w-6xl mx-auto px-4 pt-8 pb-10 md:pt-20 md:pb-20 relative" style="z-index: 2;">
+  <!-- Edge softening overlays -->
+  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to bottom, var(--cream) 0%, transparent 25%, transparent 72%, var(--cream) 100%);"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to right, var(--cream) 0%, transparent 18%);"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to left, var(--cream) 0%, transparent 25%);"></div>
+  <div class="max-w-6xl mx-auto px-4 pt-8 pb-10 md:pt-20 md:pb-20 relative">
     <div class="flex items-center gap-3 mb-5 flex-wrap">
       <span class="inline-flex items-center gap-1 bg-ink text-cream text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">✈ For DFW</span>
       <span class="text-xs uppercase tracking-widest text-ink-soft font-semibold">Human-Designed · AI-Assisted · Real Team</span>
@@ -158,7 +156,25 @@
 </section>
 
 <!-- Mobile hero image — shows below title on phones only -->
-<div class="hero-bg md:hidden" style="height: 62vw; background-size: cover, cover; background-position: center, center; background-repeat: no-repeat;"></div>
+<div id="hero-mobile-img" style="display:none; height:62vw; background-size:cover,cover; background-position:center,center; background-repeat:no-repeat;"></div>
+
+<script>
+(function(){
+  if(window.innerWidth < 768){
+    // Strip the photo from behind the hero text on mobile
+    var hero = document.querySelector('.hero-bg');
+    if(hero){ hero.style.backgroundImage = 'linear-gradient(#FAF4EC,#FAF4EC)'; }
+    // Show the photo as a block below the title instead
+    var img = document.getElementById('hero-mobile-img');
+    if(img){
+      // Copy background from hero-bg (which still has the base64 in CSS class)
+      var computed = getComputedStyle(hero);
+      img.style.backgroundImage = computed.backgroundImage;
+      img.style.display = 'block';
+    }
+  }
+})();
+</script>
 
 <!-- TICKER -->
 <section class="bg-ink text-cream py-4 overflow-hidden border-y-2 border-ink">
