@@ -161,16 +161,18 @@
 <script>
 (function(){
   if(window.innerWidth < 768){
-    // Strip the photo from behind the hero text on mobile
     var hero = document.querySelector('.hero-bg');
-    if(hero){ hero.style.backgroundImage = 'linear-gradient(#FAF4EC,#FAF4EC)'; }
-    // Show the photo as a block below the title instead
-    var img = document.getElementById('hero-mobile-img');
-    if(img){
-      // Copy background from hero-bg (which still has the base64 in CSS class)
-      var computed = getComputedStyle(hero);
-      img.style.backgroundImage = computed.backgroundImage;
-      img.style.display = 'block';
+    if(hero){
+      // Read original background FIRST before overwriting it
+      var originalBg = getComputedStyle(hero).backgroundImage;
+      // Strip the photo from behind the hero text
+      hero.style.backgroundImage = 'linear-gradient(#FAF4EC,#FAF4EC)';
+      // Now apply the original background to the image block below
+      var img = document.getElementById('hero-mobile-img');
+      if(img){
+        img.style.backgroundImage = originalBg;
+        img.style.display = 'block';
+      }
     }
   }
 })();
