@@ -149,7 +149,7 @@
     </p>
     <div class="flex flex-col sm:flex-row gap-3 mb-5">
       <a href="tel:9724678697" class="bg-accent hover-accent text-white font-bold px-6 py-4 rounded-sm text-base sm:text-lg text-center inline-flex items-center justify-center gap-2 min-h-[52px]">📞 Call (972) 467-8697</a>
-      <a href="sms:9724678697" class="bg-ink text-cream font-bold px-6 py-4 rounded-sm text-base sm:text-lg text-center hover:bg-ink/80 inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-ink">💬 Text Us</a>
+      <a href="sms:9724678697" class="bg-ink font-bold px-6 py-4 rounded-sm text-base sm:text-lg text-center hover:bg-ink/80 inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-ink" style="color:#FAF4EC;">💬 Text Us</a>
     </div>
     <p class="text-sm text-ink-soft">★★★★★ &nbsp;Clear pricing. No obligation. We answer when you call.</p>
   </div>
@@ -505,7 +505,7 @@
     </div>
     <div class="flex flex-col sm:flex-row gap-3 justify-center mb-10">
       <a href="tel:9724678697" class="bg-accent hover-accent text-white font-bold px-7 py-4 rounded-sm text-base sm:text-lg text-center min-h-[52px] flex items-center justify-center">📞 Call (972) 467-8697</a>
-      <a href="sms:9724678697" class="bg-cream text-ink font-bold px-7 py-4 rounded-sm text-base sm:text-lg text-center hover:bg-cream-deep min-h-[52px] flex items-center justify-center">💬 Text Evan</a>
+      <a href="sms:9724678697" class="bg-cream text-ink font-bold px-7 py-4 rounded-sm text-base sm:text-lg text-center hover:bg-cream-deep min-h-[52px] flex items-center justify-center">💬 Text Us</a>
     </div>
     <p class="text-center text-cream/60 text-sm mb-3">Prefer to send your details? Fill this out:</p>
     <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="bg-cream text-ink rounded-md p-5 sm:p-8 text-left max-w-2xl mx-auto shadow-[6px_6px_0_0_var(--accent)] sm:shadow-[10px_10px_0_0_var(--accent)]">
@@ -539,6 +539,138 @@
     </div>
   </div>
 </footer>
+
+
+<!-- ═══════════════════════════════════════════
+     FLOATING JOTFORM BUTTON + POPUP MODAL
+═══════════════════════════════════════════ -->
+
+<style>
+  @keyframes jf-pulse {
+    0%, 100% { box-shadow: 0 4px 24px rgba(226,88,34,0.55), 0 0 0 0 rgba(226,88,34,0.4); }
+    50%       { box-shadow: 0 6px 32px rgba(226,88,34,0.75), 0 0 0 10px rgba(226,88,34,0); }
+  }
+  #jf-float-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 22px;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  #jf-float-btn button {
+    background: #E25822;
+    color: #fff;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 26px;
+    cursor: pointer;
+    animation: jf-pulse 2.2s ease-in-out infinite;
+    white-space: nowrap;
+  }
+  #jf-float-btn button:hover { background: #c94d1a; }
+  #jf-float-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #E25822;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: #fff;
+    border-radius: 20px;
+    padding: 3px 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+
+  /* Modal */
+  #jf-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  #jf-modal-overlay.open { display: flex; }
+  #jf-modal-box {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 660px;
+    max-height: 90vh;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  #jf-modal-header {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+  }
+  #jf-modal-close {
+    background: #E25822;
+    border: none;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  #jf-modal-iframe {
+    width: 100%;
+    height: 78vh;
+    border: none;
+    display: block;
+  }
+</style>
+
+<!-- Floating Buttons -->
+<div id="jf-float-btn">
+  <button onclick="document.getElementById('jf-modal-overlay').classList.add('open')">
+    📋 Client Questionnaire
+  </button>
+  <a href="sms:9724678697" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#1a1a1a;color:#fff;font-weight:800;font-size:15px;letter-spacing:0.03em;border-radius:50px;padding:12px 24px;text-decoration:none;margin-top:2px;">
+    💬 Text
+  </a>
+  <span id="jf-float-label">Free · No Obligation</span>
+</div>
+
+<!-- Popup Modal -->
+<div id="jf-modal-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div id="jf-modal-box">
+    <div id="jf-modal-header">
+      <span>✈ Client Questionnaire — Takes 2 Minutes</span>
+      <button id="jf-modal-close" onclick="document.getElementById('jf-modal-overlay').classList.remove('open')" aria-label="Close">×</button>
+    </div>
+    <iframe
+      id="jf-modal-iframe"
+      src="https://form.jotform.com/261428632313048"
+      allowfullscreen
+      allow="geolocation; microphone; camera"
+      scrolling="yes"
+      title="Get a Free Quote">
+    </iframe>
+  </div>
+</div>
 
 </body>
 </html>
