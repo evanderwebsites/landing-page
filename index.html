@@ -510,7 +510,12 @@
       <a href="sms:9724678697" class="bg-cream text-ink font-bold px-7 py-4 rounded-sm text-base sm:text-lg text-center hover:bg-cream-deep min-h-[52px] flex items-center justify-center">💬 Text Us</a>
     </div>
     <p class="text-center text-cream/60 text-sm mb-3">Prefer to send your details? Fill this out:</p>
-    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="bg-cream text-ink rounded-md p-5 sm:p-8 text-left max-w-2xl mx-auto shadow-[6px_6px_0_0_var(--accent)] sm:shadow-[10px_10px_0_0_var(--accent)]">
+    <div id="contact-success" style="display:none;" class="bg-cream text-ink rounded-md p-8 text-center max-w-2xl mx-auto shadow-[6px_6px_0_0_var(--accent)] sm:shadow-[10px_10px_0_0_var(--accent)]">
+      <div style="font-size:3rem;">✅</div>
+      <h3 class="display uppercase text-2xl sm:text-3xl mt-3 mb-2">Got it!</h3>
+      <p class="text-base">We received your info. A team member will text or call you back within 24 hours.</p>
+    </div>
+    <form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="bg-cream text-ink rounded-md p-5 sm:p-8 text-left max-w-2xl mx-auto shadow-[6px_6px_0_0_var(--accent)] sm:shadow-[10px_10px_0_0_var(--accent)]">
       <input type="hidden" name="form-name" value="contact" />
       <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
       <div class="grid sm:grid-cols-2 gap-4 mb-4">
@@ -521,9 +526,42 @@
       </div>
       <div class="mb-4"><label class="block text-sm font-bold mb-1">What kind of business do you run?</label><input type="text" name="business_type" placeholder="e.g., mobile detailer, dog groomer, mechanic, lawn care..." class="w-full border-2 border-ink rounded-sm px-3 py-3 bg-white" /></div>
       <div class="mb-5"><label class="block text-sm font-bold mb-1">Anything else we should know?</label><textarea name="message" rows="3" class="w-full border-2 border-ink rounded-sm px-3 py-3 bg-white"></textarea></div>
-      <button type="submit" class="w-full bg-accent hover-accent text-white font-bold py-4 rounded-sm text-base sm:text-lg min-h-[52px]">Send My Info — Let's Get You Found →</button>
+      <button type="submit" id="contact-submit-btn" class="w-full bg-accent hover-accent text-white font-bold py-4 rounded-sm text-base sm:text-lg min-h-[52px]">Send My Info — Let's Get You Found →</button>
       <p class="text-xs text-ink-soft mt-3 text-center">A team member will text or call you back within 24 hours. Real human, real response.</p>
     </form>
+    <script>
+    (function(){
+      var form = document.getElementById('contact-form');
+      if(!form) return;
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var btn = document.getElementById('contact-submit-btn');
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        var data = new URLSearchParams(new FormData(form)).toString();
+        fetch('/', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: data
+        })
+        .then(function(res){
+          if(res.ok){
+            form.style.display = 'none';
+            document.getElementById('contact-success').style.display = 'block';
+          } else {
+            btn.disabled = false;
+            btn.textContent = 'Send My Info — Let\'s Get You Found →';
+            alert('Something went wrong. Please try texting us at (972) 467-8697.');
+          }
+        })
+        .catch(function(){
+          btn.disabled = false;
+          btn.textContent = 'Send My Info — Let\'s Get You Found →';
+          alert('Something went wrong. Please try texting us at (972) 467-8697.');
+        });
+      });
+    })();
+    </script>
   </div>
 </section>
 
